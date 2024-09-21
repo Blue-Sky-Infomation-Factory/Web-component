@@ -1,0 +1,130 @@
+.table-frame {
+	display: grid;
+	grid-template-rows: 1fr auto;
+	overflow: hidden;
+	--table-gap: 1px;
+	--border-color: #DDD;
+}
+
+table {
+	display: grid;
+	overflow: auto;
+	border-spacing: 0;
+	grid-template-rows: auto 1fr;
+	border: solid 1px var(--border-color);
+	scrollbar-color: var(--scrollbar-color, #444) var(--border-color);
+}
+
+thead, tbody {
+	background-color: #FFF;
+	box-sizing: border-box;
+}
+
+thead {
+	border-style: solid;
+	border-color: var(--border-color);
+	border-width: 0 0 var(--table-gap) 0;
+	position: sticky;
+	top: 0;
+}
+
+tbody {
+	display: grid;
+	gap: var(--table-gap);
+	align-content: start;
+}
+
+tbody.empty {
+	place-content: center;
+}
+
+tbody.empty::before {
+	content: "无数据";
+	color: #BBB;
+}
+
+tr, thead {
+	display: grid;
+	gap: var(--table-gap);
+	grid-template-columns: var(--table-columns);
+}
+
+tr {
+	border: 0;
+	overflow: visible;
+}
+
+tr:hover {
+	background-color: #FFA;
+}
+
+.table-column-group {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: var(--table-gap);
+}
+
+th, td {
+	padding: 0.125rem;
+	outline: solid var(--table-gap) var(--border-color);
+	max-width: 100%;
+	max-height: 100%;
+	overflow: hidden;
+}
+
+th {
+	font-weight: normal;
+}
+
+.table-paginate {
+	display: none;
+	gap: 1rem;
+	grid-auto-flow: column;
+	grid-auto-columns: auto;
+	justify-content: start;
+	align-items: center;
+	padding: 0.5rem;
+}
+
+.table-pages {
+	display: grid;
+	gap: 0.25rem;
+	grid-auto-flow: column;
+	grid-auto-columns: auto;
+}
+
+.table-page {
+	border: 0;
+	border-radius: 0.25rem;
+	background-color: #08F;
+	color: #FFF;
+	height: 1.5rem;
+	min-width: 1.5rem;
+	padding-inline: 0.5em;
+	cursor: pointer;
+}
+
+.table-page:hover {
+	background-color: #0AF;
+}
+.table-page:active {
+	background-color: #09E;
+}
+
+.table-page.current {
+	background-color: #0C8;
+	pointer-events: none;
+}
+
+.table-jump input {
+	width: 4rem;
+	color: #000;
+	background-color: #FFF;
+	font-size: 0.875rem;
+	border-radius: 0.375rem;
+	box-sizing: border-box;
+	padding-inline: 0.5rem;
+	height: 1.5rem;
+	border: solid 1px #DDD;
+	outline-color: #08F;
+}

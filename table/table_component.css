@@ -1,0 +1,10 @@
+td:has(select.cell,input.cell) {
+	padding: 0;
+}
+td>select.cell,td>input.cell {
+	border: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+	padding: 0.125rem;
+}
