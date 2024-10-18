@@ -1,4 +1,4 @@
-import { ArrayHTMLCollection, ArrayHTMLNodeContent } from "/js/module/ArrayHTML.mjs";
+import { ArrayHTMLCollection, ArrayHTMLNodeContent } from "/javascript/module/ArrayHTML.mjs";
 
 type column = {
 	title?: string,

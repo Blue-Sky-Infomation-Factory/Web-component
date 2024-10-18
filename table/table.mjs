@@ -5,7 +5,7 @@ import { EVENT_LISTENERS, parse, parseAndGetNodes } from "../../js/module/ArrayH
 	style.textContent = await (await fetch("/component/table/table.css")).text();
 	document.head.appendChild(style);
 }
-const eclipse = ["span", "…"], cssLengthExp = /^\d+(?:\.\d+)?(?:px|cm|mm|ex|ch|em|rem|vw)$/;
+const ellipsis = ["span", "…"], cssLengthExp = /^\d+(?:\.\d+)?(?:px|cm|mm|ex|ch|em|rem|vw)$/;
 
 function parseChildColumn(data, contents, dom, columns) {
 	if (!Array.isArray(data)) throw new TypeError("Failed to execute 'setColumns' on 'Table': Non-array.");
@@ -158,7 +158,6 @@ class Table extends EventTarget {
 		this.#jumpInput = jumpInput;
 		this.#totalDisplay = totalDisplay;
 		this.#tableStyle = table.style;
-
 		list.addEventListener("click", this.#listClickHandler.bind(this));
 	}
 	#inputJump() {
@@ -182,10 +181,10 @@ class Table extends EventTarget {
 		if (typeof page != "number" || !Number.isInteger(page)) throw new TypeError("Failed to execute 'jump' on 'Table': Argument 'page' is not a integer.");
 		const paginate = this.#dataConfig?.paginate;
 		if (!paginate) return;
-		if (page > 0 && page <= this.#totalPages) {
+		if (page > 0) {
 			paginate.currentPage = page;
 			this.#updateData();
-		} throw new TypeError("Failed to execute 'jump' on 'Table': Out of range.");
+		} else throw new TypeError("Failed to execute 'jump' on 'Table': Out of range.");
 	}
 
 	#generatePages() {
@@ -195,10 +194,10 @@ class Table extends EventTarget {
 			total = this.#totalPages;
 		pages.innerHTML = '';
 		if (paginate && total) {
-			this.#paginateStyle.display = null;
+			this.#paginateStyle.display = "grid";
 		} else {
 			this.#totalDisplay.textContent = input.max = input.value = 1;
-			this.#paginateStyle.display = "none";
+			this.#paginateStyle.display = null;
 			return;
 		}
 		const { currentPage } = paginate;
@@ -213,10 +212,10 @@ class Table extends EventTarget {
 			temp = [index["1"]];
 		if (total > 5) {
 			const tailCenter = total - 2;
-			if (currentPage > 3) temp.push(eclipse);
+			if (currentPage > 3) temp.push(ellipsis);
 			for (let i = currentPage < 3 ? 2 : currentPage > tailCenter ? total - 3 : currentPage - 1, end = i + 3; i < end; ++i)
 				temp.push(index[i] = ["button", i, { class: "table-page", "data-page": i, [EVENT_LISTENERS]: boundListener }]);
-			if (currentPage < tailCenter) temp.push(eclipse);
+			if (currentPage < tailCenter) temp.push(ellipsis);
 			const last = ["button", total, { class: "table-page", "data-page": total, [EVENT_LISTENERS]: boundListener }];
 			temp.push(last);
 			index[total] = last;
@@ -252,7 +251,7 @@ class Table extends EventTarget {
 		if (data.network) {
 			config = {
 				network: true,
-				url: new URL(data.url),
+				url: new URL(data.url, location.origin),
 				processor: defaultDataProcessor
 			};
 			var method = data.method ?? "GET";
@@ -260,9 +259,11 @@ class Table extends EventTarget {
 			method = method.toUpperCase();
 			if (method != "GET" && method != "POST") throw new Error("Failed to execute 'setData' on 'Table': Invalid request method.");
 			config.post = method == "POST";
-			const { params, paginate, dataProcessor } = data, paramType = typeof params;
+			const { params, paginate, dataProcessor, headers } = data, paramType = typeof params, headersType = typeof headers;
+			if (headersType != "object" && headersType != "undefined") throw new TypeError("Failed to execute 'setData' on 'Table': Invalid request heeaders.");
 			if (paramType != "object" && paramType != "undefined") throw new TypeError("Failed to execute 'setData' on 'Table': Invalid request parameters.");
 			config.params = params;
+			config.headers = headers;
 			if (paginate) {
 				if (typeof paginate != "object") throw new TypeError("Failed to execute 'setData' on 'Table': Invalid paginate option.");
 				const paginateConfig = config.paginate = {},
@@ -331,7 +332,7 @@ class Table extends EventTarget {
 			const { post, params, processor } = config,
 				abort = new AbortController,
 				/** @type {RequestInit} */
-				request = { method: post ? "POST" : "GET", signal: abort.signal }, url = new URL(config.url);
+				request = { method: post ? "POST" : "GET", signal: abort.signal, headers: config.headers }, url = new URL(config.url);
 			let payload;
 			if (post) {
 				if (params) {
@@ -405,6 +406,11 @@ class Table extends EventTarget {
 		const children = this.#list.children, end = children.length - 1;
 		for (children[index].remove(); index < end; ++index)
 			children[index].dataset.index = index;
+	}
+	clear() {
+		this.#list.innerHTML = "";
+		this.#data = [];
+		this.#paginateStyle.display = null;
 	}
 
 	static {
