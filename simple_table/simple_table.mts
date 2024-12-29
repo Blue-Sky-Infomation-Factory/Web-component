@@ -1,4 +1,4 @@
-import { ArrayHTMLCollection, ArrayHTMLNodeContent } from "/javascript/module/ArrayHTML.mjs";
+import { ArrayHTMLCollection, ArrayHTMLNodeContent } from "/js/module/ArrayHTML.mjs";
 
 type column = {
 	title?: string,
@@ -43,7 +43,7 @@ declare class Table extends EventTarget {
 	updateData(appendMode?: boolean): void;
 	updateRow(index: number): void;
 	/** ⚠ Also remove item from data. */
-	removeRow(index: number): void;
+	removeRow(index: number): any;
 }
 
 export default Table;

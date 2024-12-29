@@ -2,7 +2,7 @@ import { EVENT_LISTENERS, parse, parseAndGetNodes } from "../../js/module/ArrayH
 
 {
 	const style = document.createElement("style");
-	style.textContent = await (await fetch("/component/table/table.css")).text();
+	style.textContent = await (await fetch("/component/simple_table/simple_table.css")).text();
 	document.head.appendChild(style);
 }
 const ellipsis = ["span", "…"], cssLengthExp = /^\d+(?:\.\d+)?(?:px|cm|mm|ex|ch|em|rem|vw)$/;
@@ -140,7 +140,7 @@ class Table extends EventTarget {
 			["table", [
 				["thead", , , "header"],
 				["tbody", , , "list"]
-			], {}, "table"],
+			], { class: "simple-table" }, "table"],
 			["div", [
 				["div", null, { class: "table-pages" }, "pages"],
 				["div", [
@@ -149,7 +149,7 @@ class Table extends EventTarget {
 				], { class: "table-jump" }, "jumper"]
 			], { class: "table-paginate" }, "paginate"]
 		], element);
-		element.classList.add("table-frame");
+		element.classList.add("simple-table-frame");
 		this.#header = header;
 		this.#list = list;
 		this.#paginateStyle = paginate.style;
@@ -402,10 +402,9 @@ class Table extends EventTarget {
 	removeRow(index) {
 		const data = this.#data;
 		if (index < 0 || !(index < data?.length)) throw new RangeError();
-		data.splice(index, 1);
-		const children = this.#list.children, end = children.length - 1;
-		for (children[index].remove(); index < end; ++index)
-			children[index].dataset.index = index;
+		const [item] = data.splice(index, 1), children = this.#list.children, end = children.length - 1;
+		for (children[index].remove(); index < end; ++index) children[index].dataset.index = index;
+		return item;
 	}
 	clear() {
 		this.#list.innerHTML = "";

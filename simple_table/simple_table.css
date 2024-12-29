@@ -1,4 +1,4 @@
-.table-frame {
+.simple-table-frame {
 	display: grid;
 	grid-template-rows: 1fr auto;
 	overflow: hidden;
@@ -6,7 +6,7 @@
 	--border-color: #DDD;
 }
 
-table {
+table.simple-table {
 	display: grid;
 	overflow: auto;
 	border-spacing: 0;
@@ -15,12 +15,12 @@ table {
 	scrollbar-color: var(--scrollbar-color, #444) var(--border-color);
 }
 
-thead, tbody {
+.simple-table>thead, .simple-table>tbody {
 	background-color: #FFF;
 	box-sizing: border-box;
 }
 
-thead {
+.simple-table>thead {
 	border-style: solid;
 	border-color: var(--border-color);
 	border-width: 0 0 var(--table-gap) 0;
@@ -28,33 +28,33 @@ thead {
 	top: 0;
 }
 
-tbody {
+.simple-table>tbody {
 	display: grid;
 	gap: var(--table-gap);
 	align-content: start;
 }
 
-tbody.empty {
+.simple-table>tbody.empty {
 	place-content: center;
 }
 
-tbody.empty::before {
+.simple-table>tbody.empty::before {
 	content: "无数据";
 	color: #BBB;
 }
 
-tr, thead {
+.simple-table tr, .simple-table>thead {
 	display: grid;
 	gap: var(--table-gap);
 	grid-template-columns: var(--table-columns);
 }
 
-tr {
+.simple-table tr {
 	border: 0;
 	overflow: visible;
 }
 
-tr:hover {
+.simple-table tr:hover {
 	background-color: #FFA;
 }
 
@@ -64,7 +64,7 @@ tr:hover {
 	gap: var(--table-gap);
 }
 
-th, td {
+.simple-table th, .simple-table td {
 	padding: 0.125rem;
 	outline: solid var(--table-gap) var(--border-color);
 	max-width: 100%;
@@ -72,7 +72,7 @@ th, td {
 	overflow: hidden;
 }
 
-th {
+.simple-table th {
 	font-weight: normal;
 }
 
