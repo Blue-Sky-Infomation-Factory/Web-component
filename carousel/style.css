@@ -1,0 +1,196 @@
+.bs-carousel-box {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	background-color: black;
+	overflow: hidden;
+	transition: none 0.4s ease-in-out
+}
+
+.bs-carousel-scroll,
+.bs-carousel-item {
+	width: 100%;
+	height: 100%
+}
+
+.bs-carousel-scroll {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 100%;
+	overflow: scroll hidden;
+	scroll-snap-type: x mandatory;
+}
+
+.bs-carousel-scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.bs-carousel-item {
+	position: relative;
+	display: block;
+	background-color: white;
+	scroll-snap-stop: always;
+	scroll-snap-align: center;
+}
+
+.bs-carousel-item-image {
+	width: 100%;
+	height: 100%;
+	background-position: center;
+	background-size: cover;
+	transition: transform 0.2s ease-in
+}
+
+.bs-carousel-item.action {
+	cursor: pointer
+}
+
+.bs-carousel-item.action:hover>.bs-carousel-item-image {
+	transform: scale(1.05)
+}
+
+.bs-carousel-item.action:active>.bs-carousel-item-image {
+	transition-duration: 0s;
+	transform: scale(1.025)
+}
+
+.bs-carousel-item-text {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0.5em;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis
+}
+
+.bs-carousel-paginations {
+	width: min-content;
+	height: 0.25rem;
+	margin: 0 auto;
+	padding: 0.25rem 0.5rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.5;
+	background-color: rgba(0, 0, 0, 50%);
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 1rem;
+	gap: 0.5rem;
+	transition-property: opacity, padding, height;
+	transition-duration: inherit;
+	transition-timing-function: inherit;
+	border-radius: 0 0 0.5rem 0.5rem;
+	overflow: hidden;
+	z-index: 3
+}
+
+.bs-carousel-paginations:hover {
+	height: 1rem;
+	padding: 0.5rem;
+	opacity: 1
+}
+
+.bs-carousel-paginations-item {
+	box-sizing: border-box;
+	width: 1rem;
+	margin: 0;
+	display: block;
+	border-radius: 0.125rem;
+	outline: none;
+	appearance: none;
+	background-color: #DDDDDD;
+	overflow: hidden;
+	transition-property: background-color, border-radius;
+	transition-duration: inherit;
+	transition-timing-function: inherit;
+	cursor: pointer
+}
+
+.bs-carousel-paginations-item:hover {
+	background-color: #FFC000
+}
+
+.bs-carousel-paginations-item:active {
+	background-color: #00C000
+}
+
+.bs-carousel-paginations:hover>.bs-carousel-paginations-item {
+	border-radius: 0.25rem
+}
+
+.bs-carousel-paginations-float {
+	width: 1rem;
+	height: 0.25rem;
+	border-radius: 0.125rem;
+	position: absolute;
+	left: 0.5rem;
+	top: 0.25rem;
+	transition-property: top, height, border-radius;
+	transition-duration: inherit;
+	transition-timing-function: inherit;
+	background-color: #00C0FF
+}
+
+.bs-carousel-paginations:hover>.bs-carousel-paginations-float {
+	height: 1rem;
+	top: 0.5rem;
+	border-radius: 0.25rem
+}
+
+.bs-carousel-arrow {
+	height: 2rem;
+	width: 1.5rem;
+	margin: auto 0;
+	border: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	opacity: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	z-index: 2;
+	transition: opacity 0.2s ease-in;
+	cursor: pointer;
+	display: grid;
+	place-content: center;
+	padding: 0.5rem;
+}
+
+.bs-carousel-arrow::before {
+	content: "";
+	display: block;
+	height: 1.25rem;
+	width: 0.625rem;
+	background-size: 1.25rem;
+	background-repeat: no-repeat;
+}
+
+.bs-carousel-box.single>.bs-carousel-paginations,
+.bs-carousel-box.single>.bs-carousel-arrow {
+	display: none
+}
+
+.bs-carousel-arrow.prev {
+	border-radius: 0 0.5rem 0.5rem 0;
+	left: 0
+}
+
+.bs-carousel-arrow.next {
+	border-radius: 0.5rem 0 0 0.5rem;
+	right: 0
+}
+.bs-carousel-arrow.next::before {
+	background-position: -0.625rem 0;
+}
+
+.bs-carousel-box:hover>.bs-carousel-arrow {
+	opacity: 1
+}
