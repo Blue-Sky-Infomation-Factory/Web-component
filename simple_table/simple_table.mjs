@@ -1,10 +1,8 @@
-import { EVENT_LISTENERS, parse, parseAndGetNodes } from "../../js/module/ArrayHTML.mjs";
+import { EVENT_LISTENERS, parse, parseAndGetNodes } from "../../javascript/module/array_HTML.mjs";
+import { loadCss } from "../utils.mjs";
 
-{
-	const style = document.createElement("style");
-	style.textContent = await (await fetch("/component/simple_table/simple_table.css")).text();
-	document.head.appendChild(style);
-}
+await loadCss(new URL("simple_table.css", import.meta.url));
+
 const ellipsis = ["span", "…"], cssLengthExp = /^\d+(?:\.\d+)?(?:px|cm|mm|ex|ch|em|rem|vw)$/;
 
 function parseChildColumn(data, contents, dom, columns) {
