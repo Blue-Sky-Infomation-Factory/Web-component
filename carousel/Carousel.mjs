@@ -1,15 +1,8 @@
 import { EVENT_LISTENERS, parseAndGetNodes } from "../../javascript/module/array_HTML.mjs";
-import { get, ParseType } from "../../javascript/module/fetch.mjs";
 import { VerticalSyncThrottle } from "../../javascript/module/Throttle.mjs";
+import { loadCss } from "../utils.mjs";
 
-{
-	const selfURL = import.meta.url,
-		base = selfURL.substring(0, selfURL.lastIndexOf("/") + 1),
-		style = document.createElement("style");
-	style.textContent = (await get(base + "style.css", undefined, ParseType.TEXT).result) +
-		`.bs-carousel-arrow::before{background-image:url("${URL.createObjectURL(await get(base + "arrow.svg", undefined, ParseType.BLOB).result)}")}`;
-	document.head.appendChild(style);
-}
+await loadCss(import.meta.resolve("style.css"));
 
 const round = Math.round;
 
