@@ -1,29 +1,11 @@
 import getStorage from "./SettingStorage.mjs";
-import { IndexedDatabaseObjectStore } from "../IndexedDatabase.mjs";
-import { parseAndGetNodes, parse } from "../array_HTML.mjs";
+import { IndexedDatabaseObjectStore } from "../../javascript/module/IndexedDatabase.mjs";
+import { parseAndGetNodes, parse } from "../../javascript/module/array_HTML.mjs";
+import { requestCss } from "../utils.mjs";
+
 const style = document.createElement("style");
-style.textContent = [
-	".bs-setting-frame,.bs-setting-frame-sub{width:100%;height:100%;background-color:#FFF;overflow:hidden;display:grid;grid-template-rows:2.5rem 1fr;box-sizing:border-box}",
-	".bs-setting-frame{position:relative;user-select:none}",
-	".bs-setting-frame.blocked::after{content:\"\";position:absolute;height:100%;width:100%}",
-	".bs-setting-frame-sub{position:absolute;transition:transform 0.2s ease-in;top:0;box-shadow:black 0 0 1rem}",
-	".bs-setting-frame-sub.out{transform:translateX(100%)}",
-	".bs-setting-frame-title{display:grid;gap:0.5rem;grid-template-columns:3rem 1fr 3rem;grid-template-areas:\"back title .\";border-bottom:1px solid #808080}",
-	".bs-setting-frame-back{padding:0.5rem 0!important;align-self:center;border:0}",
-	".bs-setting-title{grid-area:title;font-weight:bold;place-self:center;max-width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}",
-	".bs-setting-list{display:grid;grid-auto-rows:minmax(2.5rem,min-content);overflow:hidden auto;place-content:start stretch}",
-	".bs-setting-item{border-style:solid;border-width:0 0 0.0625rem 0;border-color:#CCC;padding:0.5rem!important;display:grid;place-items:center start;gap:0.5rem;background-color:inherit!important;border-radius:0!important;color:#000!important;font-size:inherit!important;cursor:pointer}",
-	".bs-setting-item:hover{background-color:#DDD!important}",
-	".bs-setting-item:active{background-color:#BBB!important}",
-	".bs-setting-item.next,.bs-setting-item.switch{grid-template-columns:1fr auto}",
-	".bs-setting-item.next::after{content:\">\";color:#808080}",
-	".bs-setting-item-title{word-break:break-word;text-align:start}",
-	".bs-setting-switch{background-color:#FFFFFF;appearance:none;display:block;margin:0;width:3rem;height:1.5rem;border-radius:0.75rem;border:solid 0.125rem #808080;padding:0.125rem;overflow:hidden;outline:none;cursor:pointer}",
-	".bs-setting-switch::before{content:\"\";display:block;background-color:#808080;width:1rem;height:1rem;border-radius:50%;transition:all 0.5s}",
-	".bs-setting-switch:checked{border-color:#00C000}",
-	".bs-setting-switch:checked::before{background-color:#00C000;transform:translateX(1.5rem)}",
-	".bs-setting-page{width:100%;height:100%;border:none}"
-].join("");
+style.textContent = await requestCss(import.meta.resolve("setting.css"));
+
 async function buildList(instance, data, root) {
 	const list = [];
 	for (let item of data) list.push(await buildItem(instance, item, root));
