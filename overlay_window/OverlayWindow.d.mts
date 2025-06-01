@@ -1,13 +1,13 @@
-type MiniWindowOptions = {
+type OverlayWindowOptions = {
 	noManualClose?: boolean,
 	size?: {
 		width?: string,
 		height?: string
 	},
-	style?: MiniWindowStyleOptions,
+	style?: OverlayWindowStyleOptions,
 	containerClassName?: string
 }
-type MiniWindowStyleOptions = {
+type OverlayWindowStyleOptions = {
 	backgroundColor?: string,
 	textColor?: string,
 	interactiveColor?: string,
@@ -17,67 +17,67 @@ type MiniWindowStyleOptions = {
 	interactiveHoverTextColor?: string,
 	interactiveActiveTextColor?: string
 }
-type MiniWindowEventListener = ((this: MiniWindow, event: Event) => void) | null;
+type OverlayWindowEventListener = ((this: OverlayWindow, event: Event) => void) | null;
 /**
- * Represents a MiniWindow that can be displayed with various features.
- * @event MiniWindow#show The MiniWindow got activated and starting to be shown.
- * @event MiniWindow#shown The MiniWindow has been fully shown.
- * @event MiniWindow#close The MiniWindow got inactivated and starting to be hidden.
- * @event MiniWindow#closed The MiniWindow has been fully hidden.
+ * Represents a OverlayWindow that can be displayed with various features.
+ * @event OverlayWindow#show The OverlayWindow got activated and starting to be shown.
+ * @event OverlayWindow#shown The OverlayWindow has been fully shown.
+ * @event OverlayWindow#close The OverlayWindow got inactivated and starting to be hidden.
+ * @event OverlayWindow#closed The OverlayWindow has been fully hidden.
  */
-declare class MiniWindow extends EventTarget {
+declare class OverlayWindow extends EventTarget {
 	/**
 	 * Event listener for the 'show' event.
 	 * @listens show
 	 */
-	onshow: MiniWindowEventListener;
+	onshow: OverlayWindowEventListener;
 	/**
 	 * Event listener for the 'shown' event.
 	 * @listens shown
 	 */
-	onshown: MiniWindowEventListener;
+	onshown: OverlayWindowEventListener;
 	/**
 	 * Event listener for the 'close' event.
 	 * @listens close
 	 */
-	onclose: MiniWindowEventListener;
+	onclose: OverlayWindowEventListener;
 	/**
 	 * Event listener for the 'closed' event.
 	 * @listens closed
 	 */
-	onclosed: MiniWindowEventListener;
-	/** Indicates whether the MiniWindow is currently active. */
+	onclosed: OverlayWindowEventListener;
+	/** Indicates whether the OverlayWindow is currently active. */
 	readonly active: boolean;
-	/** Indicates whether the MiniWindow is closed. */
+	/** Indicates whether the OverlayWindow is closed. */
 	readonly closed: boolean;
-	/** Indicates whether the MiniWindow is enable to receive mouse operations. */
+	/** Indicates whether the OverlayWindow is enable to receive mouse operations. */
 	readonly blocked: boolean;
 	/**
-	 * Creates a new MiniWindow and queues it up.
-	 * @param content The content of the new MiniWindow.
-	 * @param title The title of the new MiniWindow.
-	 * @param options The options for the new MiniWindow.
+	 * Creates a new OverlayWindow and queues it up.
+	 * @param content The content of the new OverlayWindow.
+	 * @param title The title of the new OverlayWindow.
+	 * @param options The options for the new OverlayWindow.
 	 */
-	constructor(content: string | Node, title = "提示", options?: MiniWindowOptions);
+	constructor(content: string | Node, title = "提示", options?: OverlayWindowOptions);
 	/**
-	 * Enables or disables the ability for the MiniWindow to receive mouse operations.
-	 * @param toState Whether the MiniWindow can receive mouse operations. By default, toggles the state.
+	 * Enables or disables the ability for the OverlayWindow to receive mouse operations.
+	 * @param toState Whether the OverlayWindow can receive mouse operations. By default, toggles the state.
 	 * @returns Whether successfully changed the state.
 	 */
 	blockSwitch(toState?: boolean): boolean;
 	/**
-	 * Inactivates the MiniWindow, starts to hide it, or removes it from the queue if not shown yet.
-	 * @fires MiniWindow#close
+	 * Inactivates the OverlayWindow, starts to hide it, or removes it from the queue if not shown yet.
+	 * @fires OverlayWindow#close
 	 */
 	close(): void;
 	/**
-	 * Creates a new MiniWindow and queues it for the next displayed MiniWindow.
-	 * @param content The content of the new MiniWindow.
-	 * @param title The title of the new MiniWindow.
-	 * @param options The options for the new MiniWindow.
-	 * @returns The newly created MiniWindow instance.
+	 * Creates a new OverlayWindow and queues it for the next displayed OverlayWindow.
+	 * @param content The content of the new OverlayWindow.
+	 * @param title The title of the new OverlayWindow.
+	 * @param options The options for the new OverlayWindow.
+	 * @returns The newly created OverlayWindow instance.
 	 */
-	after(content: string | Node, title = "提示", options?: MiniWindowOptions): MiniWindow;
+	after(content: string | Node, title = "提示", options?: OverlayWindowOptions): OverlayWindow;
 	/**
 	 * Shows a sub window with an alert message.
 	 * @param message - The message to display in the alert.
@@ -118,5 +118,5 @@ declare class MiniWindow extends EventTarget {
 declare function remove(): void;
 declare function reload(): void;
 declare function setCounterEnabled(enabled: boolean): void;
-export default MiniWindow;
-export { MiniWindow, remove, reload }
+export default OverlayWindow;
+export { OverlayWindow, remove, reload, setCounterEnabled };
