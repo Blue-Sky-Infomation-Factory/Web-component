@@ -1,7 +1,10 @@
-import MiniWindow from "../layer_window/MiniWindow.mjs";
-import { parse as parseAH, parseAndGetNodes } from "./array_HTML.mjs";
-import { LocalStorageObject } from "./LocalStorageObject.mjs";
-const style = parseAndGetNodes([["style", "#bs-requestPermission-title{font-size:1.2rem}#bs-requestPermission-frame{display:grid;gap:0.5rem}#bs-requestPermission-hint{font-weight:bold}", null, "style"]]).nodes.style;
+import OverlayWindow from "../overlay_window/OverlayWindow.mjs";
+import { parse as parseAH, parseAndGetNodes } from "../../javascript/module/array_HTML.mjs";
+import { LocalStorageObject } from "../../javascript/module/LocalStorageObject.mjs";
+import { requestCss } from "../utils.mjs";
+
+/** @ts-ignore @type {HTMLStyleElement} */
+const style = parseAndGetNodes([["style", [await requestCss(import.meta.resolve("web_permissions.css"))], null, "style"]]).nodes.style;
 const permissions = {
 	notification: {
 		localName: "通知",
@@ -33,7 +36,7 @@ async function alertRequest(permissionName, reason) {
 			"你想要授权吗？",
 		], { id: "bs-requestPermission-frame" }]
 	]);
-	const result = await MiniWindow.confirm(documentFragment, "请求权限");
+	const result = await OverlayWindow.confirm(documentFragment, "请求权限");
 	if (!result) requestCount.chance = 0;
 	return result;
 }
@@ -45,7 +48,7 @@ async function requestNotificationPermission(reason) {
 			return true;
 		case "default":
 			if (await alertRequest("notification", reason)) {
-				let miniWindow = new MiniWindow("请在弹出的对话框中完成授权。", "请求权限", { size: { width: "0%" } }),
+				let miniWindow = new OverlayWindow("请在弹出的对话框中完成授权。", "请求权限", { size: { width: "0%" } }),
 					result = await Notification.requestPermission() == "granted";
 				miniWindow.close();
 				return result;

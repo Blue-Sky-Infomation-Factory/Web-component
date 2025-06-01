@@ -1,0 +1,12 @@
+#bs-requestPermission-title {
+	font-size: 1.2rem
+}
+
+#bs-requestPermission-frame {
+	display: grid;
+	gap: 0.5rem
+}
+
+#bs-requestPermission-hint {
+	font-weight: bold
+}
