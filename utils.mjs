@@ -10,4 +10,10 @@ async function loadCss(url) {
 	document.head.appendChild(element);
 }
 
-export { loadCss };
+/**
+ * @param {import("/javascript/module/fetch.mjs").URLInit} url
+ * @returns {Promise<string>}
+ */
+function requestCss(url) { return get(url, null, ParseType.TEXT).result }
+
+export { loadCss, requestCss };
