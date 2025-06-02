@@ -8,7 +8,7 @@ var fontName = "Arial", font = drawContext.font = "12px " + fontName;
 function setFont(name) { drawContext.font = font = "12px " + (fontName = name) }
 function getCurrentFont() { return fontName }
 const { layer, shadow } = parseAndGetNodes([["div", [
-	["#shadow", [["style", [await requestCss(import.meta.resolve("context_menu.css"))]]], { mode: "closed" }, "shadow"]
+	["#shadow", [["style", [await requestCss(import.meta.resolve("./context_menu.css"))]]], { mode: "closed" }, "shadow"]
 ], { id: "context-menu-layer" }, "layer"]], document.body);
 function buildList(list, darkStyle) {
 	if (!Array.isArray(list)) throw new TypeError("Failed to execute 'buildList': Argument 'list' must be an array.");

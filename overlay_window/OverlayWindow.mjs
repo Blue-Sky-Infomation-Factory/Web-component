@@ -1,7 +1,7 @@
 import { parse, parseAndGetNodes, EVENT_LISTENERS } from "../../javascript/module/array_HTML.mjs";
 import { loadCss } from "../utils.mjs";
 
-await loadCss(import.meta.resolve("overlay_window.css"));
+await loadCss(import.meta.resolve("./overlay_window.css"));
 
 /** @type {{
  * layer: HTMLDivElement,
@@ -234,20 +234,20 @@ class OverlayWindow extends EventTarget {
 	static alert(content, title = null) {
 		if (arguments.length < 1) throw new TypeError("1 argument required, but only 0 present.");
 		if (typeof content != "string" && !(content instanceof Node)) throw new TypeError("Argument 'content' is not a string or HTML node.");
-		const { promise, resolve } = Promise.withResolvers(), miniWindow = new OverlayWindow(parse([
+		const { promise, resolve } = Promise.withResolvers(), overlayWindow = new OverlayWindow(parse([
 			["div", content, { class: "overlay-window-message" }],
-			["div", [["button", "确认", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { resolve(); miniWindow.close() }, { once: true, passive: true }]] }]], { class: "overlay-window-buttons" }]
+			["div", [["button", "确认", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { resolve(); overlayWindow.close() }, { once: true, passive: true }]] }]], { class: "overlay-window-buttons" }]
 		]), typeof title == "string" ? title : "提示", { noManualClose: true, size: { width: "384px" }, containerClassName: "overlay-window-dialog-frame" });
 		return promise;
 	}
 	static confirm(content, title = null, textOfYes = null, textOfNo = null) {
 		if (arguments.length < 1) throw new TypeError("1 argument required, but only 0 present.");
 		if (typeof content != "string" && !(content instanceof Node)) throw new TypeError("Argument 'content' is not a string or HTML node.");
-		const { promise, resolve } = Promise.withResolvers(), miniWindow = new OverlayWindow(parse([
+		const { promise, resolve } = Promise.withResolvers(), overlayWindow = new OverlayWindow(parse([
 			["div", content, { class: "overlay-window-message" }],
 			["div", [
-				["button", typeof textOfYes == "string" ? textOfYes : "是", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { resolve(true); miniWindow.close() }, { once: true, passive: true }]] }],
-				["button", typeof textOfNo == "string" ? textOfNo : "否", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { resolve(false); miniWindow.close() }, { once: true, passive: true }]] }]
+				["button", typeof textOfYes == "string" ? textOfYes : "是", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { resolve(true); overlayWindow.close() }, { once: true, passive: true }]] }],
+				["button", typeof textOfNo == "string" ? textOfNo : "否", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { resolve(false); overlayWindow.close() }, { once: true, passive: true }]] }]
 			], { class: "overlay-window-buttons" }]
 		]), typeof title == "string" ? title : "确认", { noManualClose: true, size: { width: "384px" }, containerClassName: "overlay-window-dialog-frame" });
 		return promise;
@@ -269,10 +269,10 @@ class OverlayWindow extends EventTarget {
 			["div", message, { class: "overlay-window-message" }],
 			["input", null, { class: 'overlay-window-input', value: defaultText }, 'input'],
 			["div", [
-				["button", "确定", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { miniWindow.close(); resolve(input.value) }, { once: true, passive: true }]] }],
-				["button", "取消", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { miniWindow.close(); reject(new DOMException("User canceled.", "AbortError")) }, { once: true, passive: true }]] }]
+				["button", "确定", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { overlayWindow.close(); resolve(input.value) }, { once: true, passive: true }]] }],
+				["button", "取消", { class: "overlay-window-button", [EVENT_LISTENERS]: [["click", () => { overlayWindow.close(); reject(new DOMException("User canceled.", "AbortError")) }, { once: true, passive: true }]] }]
 			], { class: "overlay-window-buttons" }]
-		]), { resolve, reject, promise } = Promise.withResolvers(), miniWindow = new OverlayWindow(documentFragment, "输入", { noManualClose: true, size: { width: "384px" }, containerClassName: "overlay-window-dialog-frame" });
+		]), { resolve, reject, promise } = Promise.withResolvers(), overlayWindow = new OverlayWindow(documentFragment, "输入", { noManualClose: true, size: { width: "384px" }, containerClassName: "overlay-window-dialog-frame" });
 		return promise;
 	}
 }

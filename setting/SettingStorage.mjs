@@ -1,4 +1,4 @@
-import { IndexedDatabase, IndexedDatabaseObjectStore } from "../IndexedDatabase.mjs";
+import { IndexedDatabase, IndexedDatabaseObjectStore } from "../../javascript/module/IndexedDatabase.mjs";
 function upgrade(dbUpgrader) { dbUpgrader.createObjectStore(storeName) }
 const types = ["array", "object", "number", "string", "bigint", "boolean", "any"];
 function typeCheck(type, value) {

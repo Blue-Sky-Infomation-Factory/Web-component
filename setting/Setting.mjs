@@ -4,7 +4,7 @@ import { parseAndGetNodes, parse } from "../../javascript/module/array_HTML.mjs"
 import { requestCss } from "../utils.mjs";
 
 const style = document.createElement("style");
-style.textContent = await requestCss(import.meta.resolve("setting.css"));
+style.textContent = await requestCss(import.meta.resolve("./setting.css"));
 
 async function buildList(instance, data, root) {
 	const list = [];

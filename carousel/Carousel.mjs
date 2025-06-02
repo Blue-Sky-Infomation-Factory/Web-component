@@ -2,7 +2,7 @@ import { EVENT_LISTENERS, parseAndGetNodes } from "../../javascript/module/array
 import { VerticalSyncThrottle } from "../../javascript/module/Throttle.mjs";
 import { loadCss } from "../utils.mjs";
 
-await loadCss(import.meta.resolve("style.css"));
+await loadCss(import.meta.resolve("./style.css"));
 
 const round = Math.round;
 

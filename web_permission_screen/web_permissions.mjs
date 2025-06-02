@@ -4,7 +4,7 @@ import { LocalStorageObject } from "../../javascript/module/LocalStorageObject.m
 import { requestCss } from "../utils.mjs";
 
 /** @ts-ignore @type {HTMLStyleElement} */
-const style = parseAndGetNodes([["style", [await requestCss(import.meta.resolve("web_permissions.css"))], null, "style"]]).nodes.style;
+const style = parseAndGetNodes([["style", [await requestCss(import.meta.resolve("./web_permissions.css"))], null, "style"]]).nodes.style;
 const permissions = {
 	notification: {
 		localName: "通知",
@@ -48,9 +48,9 @@ async function requestNotificationPermission(reason) {
 			return true;
 		case "default":
 			if (await alertRequest("notification", reason)) {
-				let miniWindow = new OverlayWindow("请在弹出的对话框中完成授权。", "请求权限", { size: { width: "0%" } }),
+				let overlayWindow = new OverlayWindow("请在弹出的对话框中完成授权。", "请求权限", { size: { width: "0%" } }),
 					result = await Notification.requestPermission() == "granted";
-				miniWindow.close();
+				overlayWindow.close();
 				return result;
 			} else return false;
 	}
