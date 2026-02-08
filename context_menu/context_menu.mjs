@@ -1,6 +1,6 @@
 import { EVENT_LISTENERS, OBJECT_PROPERTIES, parseAndGetNodes } from "../../javascript/module/array_HTML.mjs";
 import { requestCss } from "../utils.mjs";
-const drawContext = document.createElement("canvas").getContext("2d"),
+const drawContext = new OffscreenCanvas(0, 0).getContext("2d"),
 	resizeObserver = new ResizeObserver(deposeMenu),
 	horizontalParam = ["left", "right"],
 	verticalParam = ["top", "bottom"];
