@@ -414,8 +414,11 @@ function showMenu(list, anchor = null, options = null) {
 	}
 	deposeMenu();
 	const topLevel = pureList ? buildPureList(list, darkStyle = Boolean(darkStyle)) : buildList(list, darkStyle = Boolean(darkStyle)),
-		element = topLevel.element, route = new WeakMap;
-	context = { levels: [topLevel], route, currentLevel: 0, focus: null, darkStyle, onClose, resize: true, selected: false };
+		element = topLevel.element, route = new WeakMap, { activeElement } = document;
+	context = {
+		levels: [topLevel], route, currentLevel: 0, focus: null, darkStyle, onClose, resize: true, selected: false,
+		activeElement: activeElement ? new WeakRef(activeElement) : null
+	};
 	route.set(element, topLevel);
 	measureMenu(element.style, topLevel.maxItemWidth, topLevel.itemsHeight, anchor, enforcePositioning ?? { horizontal: false, vertical: false });
 	delete topLevel.maxItemWidth;
@@ -423,7 +426,7 @@ function showMenu(list, anchor = null, options = null) {
 	element.addEventListener("click", itemClickEvent);
 	element.addEventListener("contextmenu", preventEvent);
 	shadow.appendChild(element);
-	document.activeElement.blur();
+	activeElement?.blur();
 	addGlobalListener();
 	const items = topLevel.itemsList;
 	if (keyboardMode && items.length) (context.focus = items[0]).focus();
@@ -505,7 +508,12 @@ function subMouseInEvent(event) {
 	if (target.classList.contains("active")) return;
 	showNext(target, context.route.get(target.parentElement).subLists[target.dataset.sub]);
 }
-function globalClickEvent(event) { if (event.target != layer) deposeMenu() }
+function globalClickEvent(event) {
+	if (event.target != layer) {
+		context.activeElement = null;
+		deposeMenu();
+	}
+}
 function keyboardMove(direction) {
 	const lastFocus = context.focus;
 	if (lastFocus) {
@@ -619,6 +627,7 @@ function deposeMenu(event) {
 	createMenuDisabled = true;
 	removeGlobalListener();
 	context.levels[0].element.remove();
+	context.activeElement?.deref()?.focus();
 	const onClose = context.onClose;
 	if (onClose) try { onClose(context.selected) } catch (error) { console.error(error) };
 	context = null;
